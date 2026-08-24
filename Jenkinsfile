@@ -14,13 +14,15 @@ pipeline {
                 sh '''
                     echo "Checking index.html..."
 
-                    tidy -html5 -errors -q index.html
+                    tidy --doctype html5 -errors -q index.html
 
-                    if [ $? -eq 0 ]; then
+                    STATUS=$?
+
+                    if [ $STATUS -eq 0 ]; then
                         echo "HTML validation successful!"
                     else
                         echo "HTML validation failed!"
-                        exit 1
+                        exit $STATUS
                     fi
                 '''
             }
