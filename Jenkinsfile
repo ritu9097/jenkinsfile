@@ -5,22 +5,21 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/ritu9097/jenkinsfile.git'
+                checkout scm
             }
         }
 
         stage('Check HTML') {
             steps {
                 sh '''
-                    echo "Checking HTML file..."
+                    echo "Checking index.html..."
 
-                    tidy -errors -q index.html
+                    tidy -html5 -errors -q index.html
 
                     if [ $? -eq 0 ]; then
-                        echo "HTML is valid!"
+                        echo "HTML validation successful!"
                     else
-                        echo "HTML has errors!"
+                        echo "HTML validation failed!"
                         exit 1
                     fi
                 '''
